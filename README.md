@@ -1,6 +1,8 @@
 Kubernetes - Storage Class - AWS EFS
 ====================================
 
+# Depreciated, use https://github.com/codedropau/efs-provisioner
+
 [![CircleCI](https://circleci.com/gh/previousnext/k8s-aws-efs.svg?style=svg)](https://circleci.com/gh/previousnext/k8s-aws-efs)
 
 **Maintainer**: Nick Schuch
@@ -128,20 +130,23 @@ _NOTE: It will take 5(ish) minutes to get to the below state._
 
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "elasticfilesystem:DescribeFileSystems",
-        "elasticfilesystem:CreateFileSystem",
-        "elasticfilesystem:CreateTags",
-        "elasticfilesystem:DescribeMountTargets",
-        "elasticfilesystem:CreateMountTarget"
-      ],
-      "Resource": "*"
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "elasticfilesystem:DescribeFileSystems",
+                "elasticfilesystem:CreateFileSystem",
+                "elasticfilesystem:CreateTags",
+                "elasticfilesystem:DescribeMountTargets",
+                "elasticfilesystem:CreateMountTarget",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:CreateNetworkInterface"
+            ],
+            "Resource": "*"
+        }
+    ]
 }
 ```
 
@@ -167,33 +172,14 @@ AWS_ACCESS_KEY_ID=AKID1234567890
 AWS_SECRET_ACCESS_KEY=MY-SECRET-KEY
 ```
 
-## Resources
-
-* [Dynamic Provisioning and Storage Classes in Kubernetes](http://blog.kubernetes.io/2017/03/dynamic-provisioning-and-storage-classes-kubernetes.html)
-* [Kubernetes Incubator: External Storage](https://github.com/kubernetes-incubator/external-storage)
-* [Dave Cheney - Reproducible Builds](https://www.youtube.com/watch?v=c3dW80eO88I)
-
 ## Development
-
-### Principles
-
-* Code lives in the `workspace` directory
 
 ### Tools
 
-* **Dependency management** - https://getgb.io
 * **Build** - https://github.com/mitchellh/gox
 * **Linting** - https://github.com/golang/lint
 
 ### Workflow
-
-(While in the `workspace` directory)
-
-**Installing a new dependency**
-
-```bash
-gb vendor fetch github.com/foo/bar
-```
 
 **Running quality checks**
 
@@ -206,3 +192,9 @@ make lint test
 ```bash
 make build
 ```
+
+## Resources
+
+* [Dynamic Provisioning and Storage Classes in Kubernetes](http://blog.kubernetes.io/2017/03/dynamic-provisioning-and-storage-classes-kubernetes.html)
+* [Kubernetes Incubator: External Storage](https://github.com/kubernetes-incubator/external-storage)
+* [Dave Cheney - Reproducible Builds](https://www.youtube.com/watch?v=c3dW80eO88I)
